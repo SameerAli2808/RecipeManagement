@@ -1,0 +1,80 @@
+﻿@model HomeDetailsViewModel
+
+@{ 
+    ViewBag.Title = "Recipe Details";
+    var photoPath = "~/Images/" + (Model.Recipe.PhotoPath ?? "noimage.jpg");
+    var time = Model.Recipe.Time;
+    string prepTime;
+    int hour = time / 60;
+    int min = time % 60;
+    if (time < 60)
+    {
+        prepTime = time + " mins.";
+    }
+    else
+    {
+        if (hour < 2)
+        {
+            if (min == 0)
+            {
+                prepTime = "1 Hour";
+            }
+            else if (min == 1)
+            {
+                prepTime = "1 hour 1 min.";
+            }
+            else
+            {
+                prepTime = "1 hour " + min + " mins.";
+            }
+
+        }
+        else if (min == 0)
+        {
+            prepTime = hour + " hours";
+        }
+        else if (min == 1)
+        {
+            prepTime = hour + " hours 1 min.";
+        }
+        else
+        {
+            prepTime = hour + " hours " + min + " mins.";
+        }
+
+    }
+}
+
+    <div class="row justify-content-center m-3">
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1>@Model.Recipe.Name</h1>
+                </div>
+                
+                <div class="card-body text-left">
+                    <img class="card-img-top" src="@photoPath" asp-append-version="true"/>
+
+                    @*<p><imf style="font-size : 18px">Recipe ID : </imf>@Model.Recipe.Id</p>*@
+                    <p><imf style="font-size : 18px">Source : </imf>@Model.Recipe.Source</p>
+                    <p><imf style="font-size : 18px">Ingredient : </imf>@Model.Recipe.Ingredient (@Model.Recipe.Quantity)</p>
+                    <p><imf style="font-size : 18px">Perperation Time : </imf>@prepTime</p>
+                    <p><imf style="font-size : 18px">Preperation Instructions : </imf>@Model.Recipe.Preperation</p>
+
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-controller="home" asp-action="index" 
+                       class="btn btn-primary">Back</a>
+                    <a asp-action="edit" asp-controller="home" asp-route-id="@Model.Recipe.Id"
+                       class="btn btn-primary">Edit</a>
+                    <a href="#" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts 
+ {
+    <script src="~/js/CustomScript.js"></script>
+ }
+
